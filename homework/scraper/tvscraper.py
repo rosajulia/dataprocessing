@@ -31,10 +31,6 @@ def extract_tvseries(dom):
         title = content.h3.a.text
         print(title)
         print()
-    # get tv title
-    #title = dom.find('div', class_='lister-item-content')
-    #title = content.h3.a.text
-    #print(title)
 
     # get rating
     #rating = dom.find('div', class_=)
