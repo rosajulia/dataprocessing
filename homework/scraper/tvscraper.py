@@ -27,26 +27,28 @@ def extract_tvseries(dom):
     - Runtime (only a number!)
     """
 
+    # get titles
     for content in dom.find_all('div', class_='lister-item-content'):
         title = content.h3.a.text
         print(title)
-        print()
 
-    # get rating
-    #rating = dom.find('div', class_=)
+        runtime = content.find("span",{"class": "runtime"})
+        if not runtime:
+            print('Not available')
+        else:
+            print(runtime.text)
 
+        genre = content.find('span', class_='genre')
+        if genre is None:
+            print('Not available')
+        else:
+            print(genre.text)
 
-    # get genres comma-seperated
+        rating = content.find('div', class_='inline-block ratings-imdb-rating').strong.text
+        print(rating)
 
-    # get actors comma-seperated
-
-    # get runtime
-
-
-
-
-
-
+        # actors = content.find('p', class_="").a
+        # print(actors)
 
     # ADD YOUR CODE HERE TO EXTRACT THE ABOVE INFORMATION ABOUT THE
     # HIGHEST RATED TV-SERIES
