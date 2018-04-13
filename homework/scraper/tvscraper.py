@@ -11,6 +11,8 @@ from requests.exceptions import RequestException
 from contextlib import closing
 from bs4 import BeautifulSoup
 
+import re
+
 TARGET_URL = "http://www.imdb.com/search/title?num_votes=5000,&sort=user_rating,desc&start=1&title_type=tv_series"
 BACKUP_HTML = 'tvseries.html'
 OUTPUT_CSV = 'tvseries.csv'
@@ -25,48 +27,90 @@ def extract_tvseries(dom):
     - Genres (comma separated if more than one)
     - Actors/actresses (comma separated if more than one)
     - Runtime (only a number!)
+
+    Library 're' was used to recompile names from the href list from actors
+    First, all information about a single tv-serie was added to the list
+    series_one. After all information was obtained, the series_one list was
+    added to the series_all list.
     """
+    # create empty list for all series
+    series_all = []
 
-    # get titles
-    for content in dom.find_all('div', class_='lister-item-content'):
+    # loop over all series
+    for content in dom.find_all("div", class_="lister-item-content"):
+
+        # create list per serie
+        series_one = []
+
+        # get titles
         title = content.h3.a.text
-        print(title)
+        # fail check
+        if not title:
+            print("Not available")
+        else:
+            series_one.append(title)
 
-        runtime = content.find("span",{"class": "runtime"})
+        # get rating
+        rating = content.find("div", class_="inline-block ratings-imdb-rating").strong.text
+        # fail check
+        if not rating:
+            print("Not available")
+        else:
+            series_one.append(rating)
+
+        # get genre
+        genre = content.find("span", class_="genre").text
+        # fail check
+        if not genre:
+            print("Not available")
+        else:
+            series_one.append(genre.strip())
+
+        # get actors
+        actors = content.find_all("a", href=re.compile("^(/name/)"))
+
+        # create list for actors
+        actor_list = []
+
+        # iterate over actors and append to
+
+        for i in range(len(actors)):
+            actor_list.append(actors[i].text)
+
+        # join actors as string
+        s = ", "
+        actors_str = s.join(actor_list)
+
+        # add actors to list
+        series_one.append(actors_str)
+
+        # get runtime
+        runtime = content.find("span", class_ = "runtime").text
+        # fail check
         if not runtime:
-            print('Not available')
+            print("Not available")
         else:
-            print(runtime.text)
+            # remove 'min' to get only ints
+            series_one.append(runtime.strip(' min'))
 
-        genre = content.find('span', class_='genre')
-        if genre is None:
-            print('Not available')
-        else:
-            print(genre.text)
+        # add series one to all series
+        series_all.append(series_one)
 
-        rating = content.find('div', class_='inline-block ratings-imdb-rating').strong.text
-        print(rating)
-
-        # actors = content.find('p', class_="").a
-        # print(actors)
-
-    # ADD YOUR CODE HERE TO EXTRACT THE ABOVE INFORMATION ABOUT THE
-    # HIGHEST RATED TV-SERIES
-    # NOTE: FOR THIS EXERCISE YOU ARE ALLOWED (BUT NOT REQUIRED) TO IGNORE
-    # UNICODE CHARACTERS AND SIMPLY LEAVE THEM OUT OF THE OUTPUT.
-
-    return []   # REPLACE THIS LINE AS WELL AS APPROPRIATE
+    # return list with all series
+    return series_all
 
 
 def save_csv(outfile, tvseries):
     """
     Output a CSV file containing highest rated TV-series.
     """
+
     writer = csv.writer(outfile)
     writer.writerow(['Title', 'Rating', 'Genre', 'Actors', 'Runtime'])
 
-    # ADD SOME CODE OF YOURSELF HERE TO WRITE THE TV-SERIES TO DISK
-
+    # add rows to outputfile
+    for rows in tvseries:
+        writer.writerow(rows)
 
 def simple_get(url):
     """
@@ -112,5 +156,5 @@ if __name__ == "__main__":
     tvseries = extract_tvseries(dom)
 
     # write the CSV file to disk (including a header)
-    with open(OUTPUT_CSV, 'w', newline='') as output_file:
+    with open(OUTPUT_CSV, 'w', newline='', encoding='utf-8') as output_file:
         save_csv(output_file, tvseries)
