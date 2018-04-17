@@ -1,1 +1,1 @@
-[Pages](https://juliajelgerhuis.github.io/dataprocessing/)
+[Weeks](https://juliajelgerhuis.github.io/dataprocessing/)
