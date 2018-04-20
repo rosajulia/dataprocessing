@@ -370,50 +370,101 @@
     20171231,  106
     </textarea>
 
-  <div class="row">
-  <div class="column"; onload="loadData()";>
-    <h2>Date</h2>
-    <p id="date"></p>
-  </div>
-
-  <div class="column"; onload="loadData()";>
-    <h2>Average temp</h2>
-    <p id="temp"></p>
-  </div>
-  </div>
+<canvas id="myCanvas" width = "600" height = "300"></canvas>
 
   <script>
-    // function chunkArray(myArray){
-    //   var arrayLength = myArray.length;
-    //   var tempArray = [];
-    //   var dateArray = [];
-    //
-    //   for (let i = 0; i < arrayLength; i++) {
-    //     if (i % 2) {
-    //       dateArray.push(myArray[i]);
-    //     }
-    //     else {
-    //       tempArray.push(myArray[i])
-    //     }
-    //     return [tempArray, dateArray];
-    //   }
-    // };
-
       function loadData() {
         let year = 365;
-        let temp = [];
-        let date = [];
-        data = document.getElementById("rawdata").innerHTML;
+        let canvasWidth = 600;
+        let canvasHeight = 300;
 
-        data_rows = data.split("\n");
-        data_columns = data_rows.split(",");
-      
-        // data_weather = chunkArray(data_columns)
-        // let knmi = chunkArray();
-        // let temp = knmi[0];
-        // let date = knmi[1];
+        // initialize empty arrays
+        let dates = [];
+        let avg_temp = [];
+
+        // define data
+        data = document.getElementById("rawdata").innerHTML.toString();
+
+        for (i = 1; i < year; i++) {
+          // make data into rows
+          allData = data.split("\n")[i];
+
+          // split dates and temps from data + remove whitespaces
+          knmiDate = allData.split(/,/)[0].trim();
+          knmiTemp = allData.split(/,/)[1].trim();
+
+          // convert knmiDate to javscript date
+          let jsDate = new Date(knmiDate.substring(0,4), (knmiDate.substring(4,
+                        6)) - 1, knmiDate.substring(6,8));
+          let jsDateMilli = jsDate.getTime();
+
+          // add data to array
+          dates.push(jsDateMilli);
+          avg_temp.push(knmiTemp);
+        };
+
+        // set domain for x coordinates
+        let domainX = [];
+        domainX[0] = 1;
+        domainX[1] = 365;
+
+        // set domain for y coordinates by using rest parameter
+        let domainY = [];
+        domainY[0] = Math.min(...avg_temp);
+        domainY[1] = Math.max(...avg_temp);
+
+        // transform canvas coordinates
+        var transX = createTransform(domainX, [0, canvasWidth]);
+        var transY = createTransform(domainY, [0, canvasHeight]);
+
+        // initialize canvas
+        let canvas = document.getElementById('myCanvas');
+        let ctx = canvas.getContext('2d');
+
+        // specify begin graph
+        ctx.beginPath();
+
+        // plot date into graph
+        for (let i = 1; i < year; i++) {
+          // transform + plot dates
+          ctx.moveTo(transX(avg_temp[(i - 1)]), transY(dates[(i - 0)]));
+          console.log(transX(avg_temp[(i - 1)]), transY(dates[(i - 0)]));
+          ctx.lineTo(transX(avg_temp[i]), transY(dates[i]));
+          console.log(transX(avg_temp[i]), transY(dates[i]));
+        };
+        ctx.stroke();
+
+        // write axis
+	      ctx.lineTo(0, canvasHeight);
+	      ctx.lineTo(0, canvasWidth);
+
+        // draw axis
+        xAxis = ["January", "February", "March", "April", "May", "June", "July",
+                "August", "September", "October", "November", "December"];
+      };
+
+      function createTransform(domain, range){
+      	// domain is a two-element array of the data bounds [domain_min, domain_max]
+      	// range is a two-element array of the screen bounds [range_min, range_max]
+      	// this gives you two equations to solve:
+      	// range_min = alpha * domain_min + beta
+      	// range_max = alpha * domain_max + beta
+       		// a solution would be:
+
+          var domain_min = domain[0]
+          var domain_max = domain[1]
+          var range_min = range[0]
+          var range_max = range[1]
+
+          // formulas to calculate the alpha and the beta
+         	var alpha = (range_max - range_min) / (domain_max - domain_min)
+          var beta = range_max - alpha * domain_max
+
+          // returns the function for the linear transformation (y= a * x + b)
+          return function(x){
+          	return alpha * x + beta;
+          };
       };
   </script>
   </body>
-
   </html>
