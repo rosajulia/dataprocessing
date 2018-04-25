@@ -5,7 +5,6 @@ import json
 with open("donor_data.csv") as file_donor:
     reader = csv.DictReader(file_donor)
     donor_data = json.dumps([row for row in reader])
-    print(donor_data)
 
 # write dict to JSON
 json_file = open("donor_data.json", 'w')
