@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script type="text/javascript" src="https://d3js.org/d3.v3.js"></script>
+        <!-- CSS -->
+        <style type="text/css">			
+			.axis path,
+			.axis line {
+				fill: none;
+				stroke: fuchsia;
+				shape-rendering: crispEdges;
+			}
+			
+			.axis text {
+				font-family: "comic sans ms";
+                fill: fuchsia;
+				font-size: 20px;
+                font-weight: bold;
+			}
+		</style>
+    </head>
+    <body>
+
+        <script type="text/javascript">
+            // add title of bar graph            
+            d3.select("head")
+              .append("title")
+              .text("Donorregistratie in Nederland");
+            
+            d3.select("body")
+              .append("h1")
+              .text("Donorregistratie in Nederland")
+            
+            d3.select("body")
+              .append("p")
+              .text("Julia Jelgerhuis aka 10725482")
+
+            d3.select("body")
+              .append("p")
+              .text("Deze bargrafiek laat de donorregistratie per leeftijdscategorie zien in het jaar 2017.")
+
+            // load data in DOM
+            d3.json("donor_data.json", function(error, data){
+                if (error) throw error;
+                
+                // create margin
+                totalHeight = 800;
+                totalWidth = 800;
+                margin = {"left": 150, "right": 20, "top": 50, "bottom": 150};
+                
+                // graph variables
+                var graphWidth = totalWidth - margin.left - margin.right;
+                var graphHeight = totalHeight - margin.top - margin.bottom;
+                var bars = data.length;
+                var barPadding = 2; 
+                var barWidth = ((graphWidth - barPadding * bars) / bars);
+                
+                // create SVG
+                var svg = d3.select("body")
+                            .append("svg")
+                            .attr("width", totalWidth)
+                            .attr("height", totalHeight);
+                
+                // create bars
+                svg.selectAll("rect")
+                   .data(data)
+                   .enter()
+                   .append("rect")
+                   .attr("x", function(d, i) {
+                        return i * (barWidth + barPadding) + margin.left
+                    })
+                   .attr("y", function(d) {return graphHeight - d.Toestemming})
+                   .attr("height", function(d) {return d.Toestemming})
+                   .attr("width", barWidth)
+                   .attr("fill", "green");
+
+                // show value in bars
+                svg.selectAll("text")
+                   .data(data)
+                   .enter()
+                   .append("text")  
+                   .text(function(d) {
+                            return d.Toestemming;
+                        })
+                        .attr("x", function(d, i) {
+                            return i * (graphWidth / data.length) + 
+                                (graphWidth / data.length - barPadding) / 2 + margin.left;
+                        })
+                    .attr("y", function(d) {
+                            return graphHeight - d.Toestemming - 5;             
+                            })
+                   .attr("font-family", "comic sans ms")
+                   .attr("font-weight", "bold")
+                   .attr("font-size", "20px")
+                   .attr("fill", "red")
+                   .attr("text-anchor", "middle");
+
+                // create x-axis
+                var xScale = d3.scale.ordinal()
+	                      .domain(["12 tot 18 jaar", "40 tot 50 jaar", "80 jaar of ouder"])
+                          .rangeBands([margin.left, totalWidth - margin.right])
+                
+                var xAxis = d3.svg.axis()
+                                  .scale(xScale)
+                                  .orient("bottom")
+                                  .ticks(3);
+                
+                // write axis to graph
+                svg.append("g")
+                   .attr("class", "axis")
+                   .attr("transform", "translate(0," + (graphHeight - barPadding) + ")")
+                   .call(xAxis);
+                });
+        </script>
+    </body>
+</html> 

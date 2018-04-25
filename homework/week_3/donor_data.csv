@@ -1,13 +1,4 @@
-Jaar,Leeftijd,Toestemming,Geen toestemming,Niet geregistreerd
-2014,12 tot 18 jaar,13,1,1188
-2014,40 tot 50 jaar,599,250,1376
-2014,80 jaar of ouder,95,160,431
-2015,12 tot 18 jaar,11,1,1199
-2015,40 tot 50 jaar,583,247,1338
-2015,80 jaar of ouder,101,162,439
-2016,12 tot 18 jaar,11,1,1209
-2016,40 tot 50 jaar,568,242,1296
-2016,80 jaar of ouder,106,162,453
-2017,12 tot 18 jaar,10,4,1205
-2017,40 tot 50 jaar,551,269,1242
-2017,80 jaar of ouder,110,162,455
+Leeftijd,Toestemming,Geen toestemming,Niet geregistreerd
+12 tot 18 jaar,10,4,1205
+40 tot 50 jaar,551,269,1242
+80 jaar of ouder,110,162,455
