@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>D3 Test</title>
         <script type="text/javascript" src="https://d3js.org/d3.v3.js"></script>
+        <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
         <!-- CSS -->
         <style type="text/css">         
             .axis path,
@@ -14,10 +15,30 @@
             }
             
             .axis text {
-                font-family: "sans serif";
+                font-family: "arial";
                 fill: black;
                 font-size: 20px;
             }
+
+            body {
+                font-family: "arial";
+                fill: black;
+                font-size: 14px;
+            }
+
+            rect:hover {
+                fill: blue;
+            }
+
+            .d3-tip {
+                line-height: 1;
+                font-weight: bold;
+                padding: 12px;
+                background: rgba(0, 0, 0, 0.8);
+                color: #fff;
+                border-radius: 2px;
+            }
+
         </style>
     </head>
     <body>
@@ -47,10 +68,10 @@
                 // create margin
                 totalHeight = 900;
                 totalWidth = 650;
-                margin = {"left": 60, "right": 60, "top": 60, "bottom": 60};
+                margin = {"left": 60, "right": 60, "top": 60, "bottom": 100};
                 
                 // graph variables
-                var graphWidth = totalWidth - margin.left - margin.right;
+                var graphWidth = totalWidth - margin.left - margin.right; 
                 var graphHeight = totalHeight - margin.top - margin.bottom;
                 var bars = data.length;
                 var barPadding = 2; 
@@ -61,41 +82,21 @@
                             .append("svg")
                             .attr("width", totalWidth)
                             .attr("height", totalHeight);
+
+                // give bar different colors
+                var color = d3.scale.ordinal().range(["#ffeda0", "#feb24c", "#f03b20"]);
+
+                // create tip for tooltip
+                var tip = d3.tip()
+                            .attr('class', 'd3-tip')
+                            .offset([-10, 0])
+                            .html(function(d) {
+                                return "<strong>Aantal:</strong> <span style='color:yellow'>" + d.Toestemming + "</span>";
+                            })
                 
-                // create bars
-                svg.selectAll("rect")
-                   .data(data)
-                   .enter()
-                   .append("rect")
-                   .attr("x", function(d, i) {
-                        return i * (barWidth + barPadding) + margin.left
-                    })
-                   .attr("y", function(d) {return graphHeight - d.Toestemming + margin.top})
-                   .attr("height", function(d) {return d.Toestemming})
-                   .attr("width", barWidth)
-                   .attr("fill", "red");
-
-                // show value in bars
-                svg.selectAll("text")
-                   .data(data)
-                   .enter()
-                   .append("text")  
-                   .text(function(d) {
-                            return d.Toestemming;
-                        })
-                    .attr("x", function(d, i) {
-                            return i * (graphWidth / data.length) + 
-                                (graphWidth / data.length - barPadding) / barPadding + margin.left;
-                        })
-                    .attr("y", function(d) {
-                            return graphHeight - d.Toestemming - barPadding;             
-                        })
-                   .attr("font-family", "sans serif")
-                   .attr("font-weight", "bold")
-                   .attr("font-size", "20px")
-                   .attr("fill", "red")
-                   .attr("text-anchor", "middle");
-
+                // call tip in svg
+                svg.call(tip);
+                
                 // create x-axis
                 var xScale = d3.scale.ordinal()
                                      .domain(["12 tot 18 jaar", "40 tot 50 jaar", "80 jaar of ouder"])
@@ -106,18 +107,35 @@
                                   .orient("bottom");
                 
                 var yScale = d3.scale.linear()
-                                     .domain([0, d3.max(data, function(d) {return d.Toestemming; })])
-                                     .range([graphHeight, 0]);
+                                     .domain([600, 0])
+                                     .range([margin.top, graphHeight + margin.top]);
 
                 var yAxis = d3.svg.axis()
                                   .scale(yScale)
                                   .orient("left")
-                                  .ticks(10);
-                
+                                  .ticks(5);
+
+                // create bars
+                svg.selectAll("rect")
+                   .data(data)
+                   .enter()
+                   .append("rect")
+                   .attr("x", function(d, i) {
+                        return i * (barWidth + barPadding) + margin.left
+                    })
+                   .attr("y", function(d) {return yScale(d.Toestemming) + margin.top})
+                   .attr("height", function(d) {return totalHeight - yScale(d.Toestemming) - margin.bottom})  
+                   .attr("width", barWidth)
+                   .attr("fill", function(d, i) {
+                        return color(i);
+                    })
+                    .on('mouseover', tip.show)
+                    .on('mouseout', tip.hide);
+
                 // write axis to graph
                 svg.append("g")
                    .attr("class", "axis")
-                   .attr("transform", "translate(0," + (graphHeight + margin.top) + ")")
+                   .attr("transform", "translate(0," + (graphHeight + margin.bottom + 20) + ")")
                    .call(xAxis);
 
                 svg.append("g")
