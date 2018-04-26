@@ -75,26 +75,26 @@
                    .attr("width", barWidth)
                    .attr("fill", "red");
 
-                // // show value in bars
-                // svg.selectAll("text")
-                //    .data(data)
-                //    .enter()
-                //    .append("text")  
-                //    .text(function(d) {
-                //             return d.Toestemming;
-                //         })
-                //     .attr("x", function(d, i) {
-                //             return i * (graphWidth / data.length) + 
-                //                 (graphWidth / data.length - barPadding) / barPadding + margin.left;
-                //         })
-                //     .attr("y", function(d) {
-                //             return graphHeight - d.Toestemming - barPadding;             
-                //         })
-                //    .attr("font-family", "sans serif")
-                //    .attr("font-weight", "bold")
-                //    .attr("font-size", "20px")
-                //    .attr("fill", "red")
-                //    .attr("text-anchor", "middle");
+                // show value in bars
+                svg.selectAll("text")
+                   .data(data)
+                   .enter()
+                   .append("text")  
+                   .text(function(d) {
+                            return d.Toestemming;
+                        })
+                    .attr("x", function(d, i) {
+                            return i * (graphWidth / data.length) + 
+                                (graphWidth / data.length - barPadding) / barPadding + margin.left;
+                        })
+                    .attr("y", function(d) {
+                            return graphHeight - d.Toestemming - barPadding;             
+                        })
+                   .attr("font-family", "sans serif")
+                   .attr("font-weight", "bold")
+                   .attr("font-size", "20px")
+                   .attr("fill", "red")
+                   .attr("text-anchor", "middle");
 
                 // create x-axis
                 var xScale = d3.scale.ordinal()
