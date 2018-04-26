@@ -5,21 +5,20 @@
         <title>D3 Test</title>
         <script type="text/javascript" src="https://d3js.org/d3.v3.js"></script>
         <!-- CSS -->
-        <style type="text/css">			
-			.axis path,
-			.axis line {
-				fill: none;
-				stroke: fuchsia;
-				shape-rendering: crispEdges;
-			}
-			
-			.axis text {
-				font-family: "comic sans ms";
-                fill: fuchsia;
-				font-size: 20px;
-                font-weight: bold;
-			}
-		</style>
+        <style type="text/css">         
+            .axis path,
+            .axis line {
+                fill: none;
+                stroke: black;
+                shape-rendering: crispEdges;
+            }
+            
+            .axis text {
+                font-family: "sans serif";
+                fill: black;
+                font-size: 20px;
+            }
+        </style>
     </head>
     <body>
 
@@ -35,7 +34,7 @@
             
             d3.select("body")
               .append("p")
-              .text("Julia Jelgerhuis aka 10725482")
+              .text("Julia Jelgerhuis AKA 10725482")
 
             d3.select("body")
               .append("p")
@@ -46,9 +45,9 @@
                 if (error) throw error;
                 
                 // create margin
-                totalHeight = 800;
-                totalWidth = 800;
-                margin = {"left": 150, "right": 20, "top": 50, "bottom": 150};
+                totalHeight = 900;
+                totalWidth = 650;
+                margin = {"left": 60, "right": 60, "top": 60, "bottom": 60};
                 
                 // graph variables
                 var graphWidth = totalWidth - margin.left - margin.right;
@@ -71,48 +70,61 @@
                    .attr("x", function(d, i) {
                         return i * (barWidth + barPadding) + margin.left
                     })
-                   .attr("y", function(d) {return graphHeight - d.Toestemming})
+                   .attr("y", function(d) {return graphHeight - d.Toestemming + margin.top})
                    .attr("height", function(d) {return d.Toestemming})
                    .attr("width", barWidth)
-                   .attr("fill", "green");
+                   .attr("fill", "red");
 
-                // show value in bars
-                svg.selectAll("text")
-                   .data(data)
-                   .enter()
-                   .append("text")  
-                   .text(function(d) {
-                            return d.Toestemming;
-                        })
-                        .attr("x", function(d, i) {
-                            return i * (graphWidth / data.length) + 
-                                (graphWidth / data.length - barPadding) / 2 + margin.left;
-                        })
-                    .attr("y", function(d) {
-                            return graphHeight - d.Toestemming - 5;             
-                            })
-                   .attr("font-family", "comic sans ms")
-                   .attr("font-weight", "bold")
-                   .attr("font-size", "20px")
-                   .attr("fill", "red")
-                   .attr("text-anchor", "middle");
+                // // show value in bars
+                // svg.selectAll("text")
+                //    .data(data)
+                //    .enter()
+                //    .append("text")  
+                //    .text(function(d) {
+                //             return d.Toestemming;
+                //         })
+                //     .attr("x", function(d, i) {
+                //             return i * (graphWidth / data.length) + 
+                //                 (graphWidth / data.length - barPadding) / barPadding + margin.left;
+                //         })
+                //     .attr("y", function(d) {
+                //             return graphHeight - d.Toestemming - barPadding;             
+                //         })
+                //    .attr("font-family", "sans serif")
+                //    .attr("font-weight", "bold")
+                //    .attr("font-size", "20px")
+                //    .attr("fill", "red")
+                //    .attr("text-anchor", "middle");
 
                 // create x-axis
                 var xScale = d3.scale.ordinal()
-	                      .domain(["12 tot 18 jaar", "40 tot 50 jaar", "80 jaar of ouder"])
-                          .rangeBands([margin.left, totalWidth - margin.right])
+                                     .domain(["12 tot 18 jaar", "40 tot 50 jaar", "80 jaar of ouder"])
+                                     .rangeBands([margin.left, totalWidth - margin.right]);
                 
                 var xAxis = d3.svg.axis()
                                   .scale(xScale)
-                                  .orient("bottom")
-                                  .ticks(3);
+                                  .orient("bottom");
+                
+                var yScale = d3.scale.linear()
+                                     .domain([0, d3.max(data, function(d) {return d.Toestemming; })])
+                                     .range([graphHeight, 0]);
+
+                var yAxis = d3.svg.axis()
+                                  .scale(yScale)
+                                  .orient("left")
+                                  .ticks(10);
                 
                 // write axis to graph
                 svg.append("g")
                    .attr("class", "axis")
-                   .attr("transform", "translate(0," + (graphHeight - barPadding) + ")")
+                   .attr("transform", "translate(0," + (graphHeight + margin.top) + ")")
                    .call(xAxis);
-                });
+
+                svg.append("g")
+                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                     .attr("class","axis")
+                     .call(yAxis);
+                 });
         </script>
     </body>
 </html> 
