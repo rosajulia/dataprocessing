@@ -1,2 +1,2 @@
-[Pages](https://rosajulia.github.io/dataprocessing/index.html)
+[Want to see my beautiful homework assignments?](https://rosajulia.github.io/dataprocessing)
 
