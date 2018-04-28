@@ -6,7 +6,11 @@
         <script type="text/javascript" src="https://d3js.org/d3.v3.js"></script>
         <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
         <!-- CSS -->
-        <style type="text/css">         
+        <style type="text/css">  
+            .divText {
+                width: 850px;
+                word-wrap: break-word;
+            }       
             .axis path,
             .axis line {
                 fill: none;
@@ -18,6 +22,14 @@
                 font-family: "arial";
                 fill: black;
                 font-size: 20px;
+            }
+
+            .axisLabel {
+                font-family: "arial";
+                fill: black;
+                font-size: 17px;
+                font-weight: bold;
+                text-anchor: middle;
             }
 
             body {
@@ -36,7 +48,7 @@
                 padding: 12px;
                 background: rgba(0, 0, 0, 0.8);
                 color: #fff;
-                border-radius: 2px;
+                border-radius: 1px;
             }
 
         </style>
@@ -55,20 +67,24 @@
             
             d3.select("body")
               .append("p")
-              .text("Julia Jelgerhuis AKA 10725482")
+              .text("Julia Jelgerhuis - 10725482")
 
             d3.select("body")
-              .append("p")
-              .text("Deze bargrafiek laat de donorregistratie per leeftijdscategorie zien in het jaar 2017.")
+              .append("div")
+              .attr("class", "divText")
+              .text("Onderstaande bargrafiek laat het aantal mensen per \
+                        leeftijdscategorie zien die op hun donorcodicil \
+                        de optie 'toestemming zonder donatiebeperkingen' gekozen hebben in 2017. \
+                        Bron: CBS");
 
             // load data in DOM
             d3.json("donor_data.json", function(error, data){
                 if (error) throw error;
                 
-                // create margin
-                totalHeight = 900;
-                totalWidth = 650;
-                margin = {"left": 60, "right": 60, "top": 60, "bottom": 100};
+                // create margin and set height and width
+                totalHeight = 750;
+                totalWidth = 850;
+                margin = {"left": 100, "right": 100, "top": 20, "bottom": 120};
                 
                 // graph variables
                 var graphWidth = totalWidth - margin.left - margin.right; 
@@ -89,9 +105,9 @@
                 // create tip for tooltip
                 var tip = d3.tip()
                             .attr('class', 'd3-tip')
-                            .offset([-10, 0])
+                            .offset([-5, 0])
                             .html(function(d) {
-                                return "<strong>Aantal:</strong> <span style='color:yellow'>" + d.Toestemming + "</span>";
+                                return "<strong>Toestemming:</strong> <span style='color:yellow'>" + d.Toestemming + "</span>";
                             })
                 
                 // call tip in svg
@@ -135,13 +151,28 @@
                 // write axis to graph
                 svg.append("g")
                    .attr("class", "axis")
-                   .attr("transform", "translate(0," + (graphHeight + margin.bottom + 20) + ")")
+                   .attr("transform", "translate(0," + (graphHeight + margin.top + margin.top) + ")")
                    .call(xAxis);
-
+                
                 svg.append("g")
                      .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                      .attr("class","axis")
                      .call(yAxis);
+                
+                // text label for x axis
+                svg.append("text") 
+                   .attr("class", "axisLabel")            
+                   .attr("transform", "translate(" + (graphWidth / 2 + margin.left) + " ," + (graphHeight + margin.bottom - margin.top) + ")")
+                   .text("Leeftijd (jaren)");
+
+                // text label for y axis
+                svg.append("text")
+                   .attr("class", "axisLabel")
+                   .attr("transform", "rotate(-90)")
+                   .attr("y", 0 - margin.left + margin.right + 10)
+                   .attr("x", 0 - (graphHeight / 2) - margin.top)
+                   .attr("dy", "1em")
+                   .text("Aantal (x1000)");   
                  });
         </script>
     </body>
