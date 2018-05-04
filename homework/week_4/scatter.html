@@ -12,6 +12,9 @@ Minor Programmeren - dataprocessing
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="scatter.css" />
     <script type="text/javascript" src="https://d3js.org/d3.v4.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="scatter.js"></script>
     <script src="d3-tip.js"></script>
 </head>
@@ -19,7 +22,9 @@ Minor Programmeren - dataprocessing
 <h1>Life Expectancy vs. Gross National Income</h1>
 <p>Julia Jelgerhuis - 10725482</p>
 <div class = "divText";>This scatterplot shows the relationship between the life expectancy in years at birth and the gross national income per country. 
-    Furthermore, these two variables are also compared against average hours worked per month. Source: stats.oecd.org</div>
+    Furthermore, these two variables are also compared against average hours worked per year, which you can see by looking at the size of dots. 
+    Source: stats.oecd.org. You can choose the year you want to see in the dropdown menu under this text. 0 = 2011, 1 = 2012, 2 = 2013, 3 = 2014 and 4 = 2015.</div>
+<div id = "dropdownMenu"></div>
 </body>
 </html>
 

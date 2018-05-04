@@ -10,6 +10,10 @@ Minor Programmeren - dataprocessing
     shape-rendering: crispEdges;
 }
 
+.text-legend {
+    font-size: 11px;
+}
+
 .axis text {
     font-family: "arial";
     fill: black;
