@@ -3,3 +3,46 @@ Julia Jelgerhuis - 10725482
 Week 4 Scatterplot
 Minor Programmeren - dataprocessing
 */
+.axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: "arial";
+    fill: black;
+    font-size: 11px;
+}
+
+.axisLabel {
+    font-family: "arial";
+    fill: black;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+body {
+    font-family: "arial";
+    fill: black;
+    font-size: 11px;
+}
+
+rect:hover {
+    fill: blue;
+}
+
+.d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 1px;
+}
+
+.divText {
+    width: 650px;
+    word-wrap: break-word;
+}   
