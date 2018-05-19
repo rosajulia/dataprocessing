@@ -60,5 +60,41 @@ div.tooltip {
     stroke: black;
     stroke-linejoin: round;
   }
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: "arial";
+    fill: black;
+    font-size: 11px;
+}
+
+.axisLabel {
+    font-family: "arial";
+    fill: black;
+    font-size: 17px;
+    font-weight: bold;
+    text-anchor: middle;
+}
+
+.d3-tip {
+    font-family: "arial";
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 1px;
+}
+
+.svgAll{
+    width: 1400px;
+    height: 600px;
+}
   
 

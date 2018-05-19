@@ -19,6 +19,7 @@ HTML file for Linked Views.
         <script src="https://d3js.org/d3-color.v1.min.js"></script>
         <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
         <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+        <script src="//d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
         <link rel="stylesheet" href="data/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
         <link rel="stylesheet" type="text/css" media="screen" href="linked.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -32,9 +33,13 @@ HTML file for Linked Views.
         <h1 class="title";>Linked Views</h1>
         <p class="text";>Julia Jelgerhuis - 10725482</p>
         <div class="text";>Relationship between DKTP vaccination in the Netherlands and ...</div><br>
-        <input type="range" min="2010" max="2016" value="1" class="slider" id="myRange">
+        <input type="range" min="2010" max="2015" value="1" class="slider" id="myRange">
         <p class="text">Jaar: <span id="demo"></span></p>
-        <div class="slidecontainer">
+        <div class="slidecontainer"></div>
+        <div class = "svgAll">
+                <div class = "svgMap" style="float:left"></div>
+                <div class = "svgChart" style="float:right"></div>
+        </div>
     </body>
 
 </html> 
