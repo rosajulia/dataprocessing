@@ -6,7 +6,7 @@ Homework week 6 - Linked Views
 CSS stylesheet for linked.html
 */
 
-.title {
+/* .title {
     font-family: "arial";
     color: rgba(18, 119, 228, 0.727);
     font-weight: bold;
@@ -19,10 +19,13 @@ CSS stylesheet for linked.html
     width: 650px;
     word-wrap: break-word;
     font-size: 15px;
-}
+} */
 
 .slidecontainer {
     width: 100%;
+}
+.container-fluid {
+    padding: 0px;
 }
 
 .slider {
@@ -30,7 +33,7 @@ CSS stylesheet for linked.html
     appearance: none;
     width: 50%;
     height: 25px;
-    background: #d3d3d3;
+    background: #5d5b57;
     outline: none;
     opacity: 0.7;
     -webkit-transition: .2s;
@@ -42,14 +45,15 @@ CSS stylesheet for linked.html
     appearance: none;
     width: 50px;
     height: 25px;
-    background: lightsalmon;
+    background: rgba(195, 16, 16, 0.938);
     cursor: pointer;
 }
 div.tooltip {	
     position: absolute;			
     text-align: center;	
     padding: 12px;	
-    font: 14px sans-serif;	
+    font-size: 14px;
+    font-family: Cabin,'Helvetica Neue',Helvetica,Arial,sans-serif;	
     background: black;
     color: #fff;
     border-radius: 2px;			
@@ -69,32 +73,39 @@ div.tooltip {
 }
 
 .axis text {
-    font-family: "arial";
+    font-family: Cabin,'Helvetica Neue',Helvetica,Arial,sans-serif;
     fill: black;
     font-size: 11px;
 }
 
 .axisLabel {
-    font-family: "arial";
-    fill: black;
-    font-size: 17px;
-    font-weight: bold;
+    font-family: Cabin,'Helvetica Neue',Helvetica,Arial,sans-serif;
+    fill: rgb(52, 46, 46);
+    font-size: 15px;
     text-anchor: middle;
 }
 
+.textLegend {
+    font-family: Cabin,'Helvetica Neue',Helvetica,Arial,sans-serif;
+    fill: rgb(52, 46, 46);
+    font-size: 13px;
+}
+
 .d3-tip {
-    font-family: "arial";
+    font-family: Cabin,'Helvetica Neue',Helvetica,Arial,sans-serif;
     line-height: 1;
-    font-weight: bold;
-    padding: 12px;
+    font-size: 14px;
+    padding: 14px;
     background: rgba(0, 0, 0, 0.8);
     color: #fff;
     border-radius: 1px;
 }
 
 .svgAll{
-    width: 1400px;
-    height: 600px;
+    width: 1100px;
+    height: 500px;
 }
+
+
   
 

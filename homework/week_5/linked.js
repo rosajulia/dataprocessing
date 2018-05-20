@@ -1,9 +1,26 @@
 /* 
-Julia Jelgerhuis - 10725482 
-Minor Programmeren - Dataprocessing
-Homework week 6 - Linked Views
-
-Javascript code to update linked.html.
+* Julia Jelgerhuis - 10725482 
+* Minor Programmeren - Dataprocessing
+* Homework week 6 - Linked Views
+* 
+* Javascript code to update linked.html.
+* Visulisation showing degree of vaccination in the Netherlands,
+* together with religion per province.
+*
+* Functions:
+* loadData: starts when window loads, uses d3.queue to load data
+* synchronously. Sends data to prepData.
+*
+* prepData: stores information per province in an array and calls
+* visualisation functions.
+*
+* createMap: takes the data from prepData as input + yearSelected (default 2010).
+* creates a map of the Netherlands and shows with different colors the vaccination degree
+* per province. Also contains html slider. When slider is updated, a new svg is generated
+* for that year.
+*
+* createChart: create Barchart showing the religions per province, per year. This functions
+* updates whenever a province is clicked on the map, or when the slider is used. 
 */
 
 window.onload = function loadData() {
@@ -22,10 +39,12 @@ window.onload = function loadData() {
 };
 
 function prepData(data) {
+    // initialize data
     vacData = data[0]
     nld = data[1]
     relData = data[2]
     
+    // create arrays for each province
     Groningen = ["Groningen"];
     Friesland = ["Friesland"];
     Drenthe = ["Drenthe"];
@@ -39,9 +58,11 @@ function prepData(data) {
     Gelderland = ["Gelderland"];
     Flevoland = ["Flevoland"];
 
+    // add provinces together
     provinces = [Groningen, Friesland, Drenthe, Overijssel, Utrecht, Zeeland, Limburg, NoordBrabant,
         ZuidHolland, NoordHolland, Gelderland, Flevoland]
 
+    // fill with information per province
     for (let i = 0; i < provinces.length; i++){
         for (let j = 0; j < relData.length; j++){
             if (provinces[i][0] == relData[j].Provincie){
@@ -50,12 +71,12 @@ function prepData(data) {
         };
         provinces[i].splice(0, 1)
     ;}
+    // call visualisation functions
     createChart(provinces)
     createMap(vacData, nld, provinces)
 }
 
 function createMap(vacData, nld, provinces, yearSelected=2010){
-
     // load and update slider
     var slider = document.getElementById("myRange");
     var output = document.getElementById("demo");
@@ -64,13 +85,10 @@ function createMap(vacData, nld, provinces, yearSelected=2010){
     // make graph with output slider
     slider.oninput = function() {
     output.innerHTML = this.value;
-    // svgMap.select().remove();
-    d3.selectAll("svg").remove();
+    d3.selectAll('.svgMap svg').remove();
     createChart(provinces, province="Groningen", this.value)
     createMap(vacData, nld, provinces, this.value)
     };
-
-    // svg.selectAll("*").remove();
 
     // initialize data
     var vacData = vacData,
@@ -81,15 +99,12 @@ function createMap(vacData, nld, provinces, yearSelected=2010){
         legendText = ["<90%", "90% - 93%", "93% - 95%", ">95%"]
         year = yearSelected;
 
-    // remove old svg
-    // d3.select(".svgMap").exit();
-
     // initialize new svg
     var totalHeight = 600,
-        totalWidth = 690,
+        totalWidth = 500,
         padding = 20;
     
-    margin = {"left": 90, "right": 40, "top": 80, "bottom": 50};
+    margin = {"left": 90, "right": 0, "top": 80, "bottom": 50};
 
     var graphHeight = totalHeight - margin.top - margin.bottom;
     var graphWidth = totalWidth - margin.left - margin.right;
@@ -97,9 +112,6 @@ function createMap(vacData, nld, provinces, yearSelected=2010){
     var svgMap = d3.selectAll(".svgMap").append("svg")
         .attr("width", totalWidth)
         .attr("height", totalHeight);
-        
-    // d3.select(".svgMap").remove();
-        // d3.select("svgAll.svgMap").remove();
 
     var g = svgMap.append("g");
 
@@ -184,7 +196,7 @@ function createMap(vacData, nld, provinces, yearSelected=2010){
     });  
 
     legend.append("text")
-    .attr("class", "text")
+    .attr("class", "textLegend")
     .attr("x", 40)
     .attr("y", 27)
     .attr("dy", ".35em")
@@ -192,13 +204,9 @@ function createMap(vacData, nld, provinces, yearSelected=2010){
     .text(function(d, i) {
         return legendText[i]
     });
-
-    // call for update
-    // update(vacData, nld, provinces);
 };
 
 function createChart(data, province="Groningen", year=2010) {
-
     // load data
     provinceData = [];
     provinceYearData = [];
@@ -223,14 +231,16 @@ function createChart(data, province="Groningen", year=2010) {
     relNames = Object.keys(provinceYearData[0])
     relValues = Object.values(provinceYearData[0])
 
+    // splice year and province from array
     relNames.splice(0,2)
     relValues.splice(0, 2)
 
+    // delete old chart svg
     d3.selectAll('.svgChart svg').remove();
 
     // initialize chart SVG
-    totalHeight = 600;
-    totalWidth = 700;
+    totalHeight = 500;
+    totalWidth = 600;
     margin = {"left": 100, "right": 100, "top": 20, "bottom": 120};
     
     var graphWidth = totalWidth - margin.left - margin.right; 
@@ -239,8 +249,6 @@ function createChart(data, province="Groningen", year=2010) {
     var barWidth = ((graphWidth - barPadding * 7) / 7);
 
     var color = d3.scaleOrdinal(d3.schemeCategory20);
-
-        
     
     var svgChart = d3.select(".svgChart").append("svg")
                     .attr("width", totalWidth)
@@ -248,8 +256,7 @@ function createChart(data, province="Groningen", year=2010) {
     
     // create x-axis
     var xScale = d3.scaleBand()
-                //    .domain(relNames)
-                   .rangeRound([margin.left, totalWidth - margin.right]);
+                  .rangeRound([margin.left, totalWidth - margin.right]);
     
     var xAxis = d3.axisBottom()
                   .scale(xScale)
@@ -273,6 +280,12 @@ function createChart(data, province="Groningen", year=2010) {
        .attr("class","axis")
        .call(yAxis);
     
+    svgChart.append("text")
+            .attr("class", "textLegend") 
+            .style("font-size", "20px") 
+            .attr("transform", "translate(" + (graphWidth / 2 + 20) + " ," + (margin.bottom + margin.top) + ")") 
+            .text(province);
+
     // text label for x axis
     svgChart.append("text") 
        .attr("class", "axisLabel")            
@@ -308,14 +321,13 @@ function createChart(data, province="Groningen", year=2010) {
        .attr("y", function(d, i) {return yScale(relValues[i]) + margin.top})
        .attr("height", function(d, i) {return totalHeight - yScale(relValues[i]) - margin.bottom})  
        .attr("width", barWidth)
-       .attr("fill", function(d, i) {return color(d)})
+       .attr("fill", function(d, i) {return color(relNames[i])})
        .on('mouseover', tip.show)
-       .on('mouseout', tip.hide);
-    
-    
+       .on("mouseout", tip.hide);
+
     // initialize chart legend
     var legend = svgChart.selectAll(".legend")
-    .data(relValues)
+    .data(relNames)
     .enter()
     .append("g")
     .classed("legend", true)
@@ -331,7 +343,7 @@ function createChart(data, province="Groningen", year=2010) {
     .attr("fill", function(d, i) {return color(d)});
 
     legend.append("text")
-    .attr("class", "text")
+    .attr("class", "textLegend")
     .attr("x", totalWidth - margin.right - 20)
     .attr("y", 27)
     .attr("dy", ".35em")
@@ -341,22 +353,3 @@ function createChart(data, province="Groningen", year=2010) {
     });
 
 };
-
-// function update(vacData, nld, provinces) {
-//     // load and update slider
-//     var slider = document.getElementById("myRange");
-//     var output = document.getElementById("demo");
-//     output.innerHTML = slider.value;
-
-//     // make graph with output slider
-//     slider.oninput = function() {
-//     output.innerHTML = this.value;
-//     createMap(vacData, nld, provinces, this.value)
-//     };
-
-//     svg.selectAll("*").remove();
-
-    // update map
-    // var map = svgMap.selectAll(".g")
-    //     console.log(map)
-// };

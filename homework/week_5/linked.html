@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <!-- 
 Julia Jelgerhuis - 10725482 
 Minor Programmeren - Dataprocessing
@@ -5,41 +6,181 @@ Homework week 6 - Linked Views
 
 HTML file for Linked Views. 
  -->
-
-<!DOCTYPE html>
 <html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Linked Views</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="data/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="css/linked.css"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Cabin:700' rel='stylesheet' type='text/css'>
+    <link href="css/grayscale.min.css" rel="stylesheet">
 
-    <head>
-        <meta charset="utf-8">
-        <title>Linked Views</title>
-        <script type="text/javascript" src="https://d3js.org/d3.v4.js"></script>
-        <script src="d3-tip.js"></script>
-        <script src="http://d3js.org/queue.v1.min.js"></script>
-        <script src="http://d3js.org/topojson.v1.min.js"></script>
-        <script src="https://d3js.org/d3-color.v1.min.js"></script>
-        <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
-        <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-        <script src="//d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
-        <link rel="stylesheet" href="data/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
-        <link rel="stylesheet" type="text/css" media="screen" href="linked.css" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="data/jquery-jvectormap-2.0.3.min.js"></script>
-        <script src="http://jvectormap.com/js/jquery-jvectormap-nl-mill.js"></script>
-        <script src="linked.js"></script>
+    <!-- D3 scripts -->
+    <script type="text/javascript" src="https://d3js.org/d3.v4.js"></script>
+    <script src="scripts/d3-tip.js"></script>
+    <script src="http://d3js.org/queue.v1.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="//d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
 
-    </head>
+    <!-- Bootstrap scripts -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="scripts/bootstrap.bundle.min.js"></script>
+    <script src="scripts/jquery.easing.min.js"></script>
+    <script src="scripts/grayscale.min.js"></script>
+      <!-- Bootstrap core JavaScript -->
+    <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
+    <script src="scripts/bootstrap.bundle.min.js"></script>
 
-    <body>
-        <h1 class="title";>Linked Views</h1>
-        <p class="text";>Julia Jelgerhuis - 10725482</p>
-        <div class="text";>Relationship between DKTP vaccination in the Netherlands and ...</div><br>
-        <input type="range" min="2010" max="2015" value="1" class="slider" id="myRange">
-        <p class="text">Jaar: <span id="demo"></span></p>
-        <div class="slidecontainer"></div>
-        <div class = "svgAll">
-                <div class = "svgMap" style="float:left"></div>
-                <div class = "svgChart" style="float:right"></div>
-        </div>
-    </body>
+    <!-- Plugin JavaScript -->
+    <script src="scripts/jquery.easing.min.js"></script>
 
-</html> 
+    <!-- Custom scripts for this template -->
+    <script src="scripts/grayscale.min.js"></script>
+
+    
+    <!-- Remaining scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="data/jquery-jvectormap-2.0.3.min.js"></script>
+    <script src="http://jvectormap.com/js/jquery-jvectormap-nl-mill.js"></script>
+    <script src="linked.js"></script>
+
+ 
+    <body id="page-top" data-gr-c-s-loaded="true">
+
+            <!-- Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-shrink" id="mainNav" style="background-color:#95d1e8">
+              <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">LINKED VIEWS</a>
+                <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                  Menu
+                  <i class="fa fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                  <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                      <a class="nav-link js-scroll-trigger active" style="color:black" href="#visual">Visualisatie</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link js-scroll-trigger" style="color:black" href="#story">Storytelling</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link js-scroll-trigger" style="color:black" href="#design">Design</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+        
+            <!-- Intro Header -->
+            <header class="masthead">
+              <div class="intro-body">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                      <h1 class="brand-heading">Linked Views</h1>
+                      <p class="intro-text">Een visualisatie van de vaccinatiegraad en religieuze overtuigingen per provincie in Nederland.
+                        <br>Julia Jelgerhuis - 10725482</p>
+                      <a href="#visual" class="btn btn-circle js-scroll-trigger">
+                        <i class="fa fa-angle-double-down animated"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </header>
+        
+            <!-- Visualisation Section -->
+            <section id="visual" class="content-section text-center" style="background-color: rgb(213, 213, 213)">
+              <div class="container">
+                <div class="row">
+                    <h2>visualisatie</h2>
+                    <input type="range" min="2010" max="2015" value="1" class="slider" id="myRange">
+                    <h3 class="text" style="text-align:left">Jaar: <span id="demo">2010</span></h3>
+                    <div class="slidecontainer"></div>
+                    <div class = "svgAll">
+                        <div class="svgMap" style="float:left"></div>
+                        <div class="svgChart" style="float:right"></div>
+                </div>        
+                    </div>
+                    </div>
+                  </div>
+            </section>
+
+            <!-- Storytelling Section -->
+            <section id="story" class="content-section" style="background-color: black">
+                <div class="container">
+                    <h2 style="text-align: left">storytelling</h2>
+                    <h4 style="text-align: left">Vaccinaties in Nederland</h4>     
+                    <p style="text-align: left">In Nederland zijn wij in 1957 gestart met het Rijksvaccinatieprogramma. 
+                      Dit programma startte destijds met vaccinaties tegen difterie, kinkhoest, tetanus, en polio (DKTP). 
+                      Veel kinderen stierven aan deze infectieziektes en de opkomst van de vaccins zorgde voor een forse daling hierin. 
+                      De laatste 60 jaar zijn er nog een aantal vaccinaties toegevoegd aan het programma, zoals rode hond, meningokokkenziekten, en de mazelen.</p> 
+                      <h4 style="text-align: left">DKTP inenting</h4>    
+                      <p style="text-align: left">Het vaccin wat het meest gegeven wordt aan kinderen, is het DKTP vaccin. 
+                        Bij het doorlopen van het vaccinatieschema zoals geleverd door het Rijksvaccinatieprogramma krijgt een kind de vaccinatie met 6-9 weken, 3 maanden, 4 maanden, en 11 maanden. 
+                        Vervolgens worden er nog twee herhaalinjecties gegeven, bij 4 jaar en 9 jaar. 
+                        Als een kind al deze injecties doorlopen heeft, is het de rest van zijn leven beschermd. 
+                        In deze bovenstaande visualisatie is weergegeven hoeveel kinderen van 4 jaar ook worden gerevaccineerd.</p>
+                        <h4 style="text-align: left">Tegenstanders vaccinatie</h4>    
+                      <p style="text-align: left">De grootste reden waarom mensen hun kinderen niet laten inenten in Nederland komt vooral vanuit hun levensbeschouwing. 
+                        Veel reformatorische christenen laten hun kinderen niet inenten, wat leidde tot mazelenepidemie in de biblebelt (strook met veel gelovigen van Zeeland – Overijssel) in 2013.
+                         Maar het vooroordeel dat vooral deze groep hun kinderen niet laat inenten, is weerlegd door het RIVM en het CBS. 
+                        Zij vonden namelijk dat veruit de grootste groep bestaat uit antroposofen. 
+                        Antroposofen handelen uit de mening dat je met goede voeding en voldoende weerstand makkelijk een ziekte zoals de mazelen kan weren. 
+                        Besmetting met kinderziektes zou zelfs goed zijn voor de mentale en lichamelijke ontwikkeling van een kind. . </p>
+                        <h4 style="text-align: left">Verplichten van vaccinaties</h4>     
+                    <p style="text-align: left">In Frankrijk zijn sinds 2017 elf vaccinaties voor zuigelingen verplicht. 
+                      Deze maatregel was nodig aangezien nog maar 75% van de bevolking was ingeënt tegen mazelen, terwijl voor een goede bescherming een vaccinatiegraad van 95% nodig is. 
+                      Hierdoor heeft Frankrijk al jaren te maken met een mazelenepidemie, met meer dan 20.000 zieken en 10 doden. 
+                      Ook Italië treft soortgelijke maatregelen, daar mogen ongevaccineerde kinderen niet meer naar de kinderopvang en niet-vaccinerende ouders kunnen een boete verwachten tussen de 500 – 1000 euro. 
+                        In Nederland worden zulke maatregelen niet getroffen omdat wij hier weinig last hebben van epidemieën van deze ziektes. 
+                        De Tweede Kamer verwierp in 2013 de wens vanuit de samenleving om voor een meldplicht te zorgen met betrekking tot vaccineren. 
+                        Volgens de minister van Volksgezondheid zou dat een te grote inbreuk zijn op privacy. 
+                        De vaccinatiegraad in Nederland zit al jaren onder de 95%, dus een volgende epidemie zou eventueel kunnen leiden tot het herzien van deze niet-getroffen maatregelen. 
+                        </p> 
+                        </div>
+                        </div>
+                      </div>
+                </section>
+
+                <!-- Storytelling Section -->
+            <section id="design" class="content-section text-center" style="background-color: rgb(213, 213, 213)">
+                <div class="container">
+                    <h2 style="text-align: left; color: rgb(52, 46, 46)">Design</h2>
+                    <h4 style="text-align: left; color: rgb(52, 46, 46)">Keuzes voor Design</h4>   
+                    <h6 style="text-align: left; color: rgb(52, 46, 46)">Kaart van Nederland</h6>
+                    <p style="text-align: left; color: rgb(52, 46, 46)">Ik heb gekozen voor een geojson kaart van Nederland, verkregen van de website van d3.
+                      Door middel van verschillende tinten rood laat ik de vaccinatiegraad per provincie zien. Ik heb voor deze kleuren gekozen,
+                      omdat je op deze manier goed de overgang tussen de verschillende provincies kunt zien, met donkerrood als laagste vaccinatiegraad.
+                    </p>  
+                    <h6 style="text-align: left; color: rgb(52, 46, 46)">Slidecontainer</h6>
+                    <p style="text-align: left; color: rgb(52, 46, 46)">De slidecontainer voor het aangeven van de jaren heb ik gekozen omdat ik dat zelf wat duidelijker vind dan een dropdown-menu.
+                      Op deze manier kun je namelijk de kaart zien veranderen terwijl je door de jaren heengaat, en hoef je niet telkens je menu te openen en ergens op te klikken.
+                    </p>
+                    <h6 style="text-align: left; color: rgb(52, 46, 46)">Bar chart</h6>
+                    <p style="text-align: left; color: rgb(52, 46, 46)">Ik vond in het geval van deze dataset een barchart een betere optie dan een lijngrafiek, omdat het per provincie verschilt hoeveel kerkgangers er in totaal zijn.
+                      Met een barchart kan je goed de verhoudingen zien tussen de verschillende geloofsovertuigingen. 
+                      De kleuren voor de barchart zijn random gekozen, aangezien de religie's verder niet veel met elkaar te maken hebben.
+                    </p>
+                    <h6 style="text-align: left; color: rgb(52, 46, 46)">Template bootstrap</h6>
+                    <p style="text-align: left; color: rgb(52, 46, 46)">Als bootstrap onderdeel heb ik gekozen om de template grayscale te implementeren (https://startbootstrap.com/template-overviews/grayscale/).
+                      Ik heb de bestanden die ik dacht nodig te hebben van de github gehaald en in mijn eigen mappen gestopt. De css files in het mapje css en de scripts in het mapje scripts.
+                      Vervolgens heb ik een aantal dingen aangepast, zoals achtergrondkleuren, de hoogte van de navigatiebar, en natuurlijk het content wat op elke pagina hoort.  
+                    </p>  
+                    <h6 style="text-align: left; color: rgb(52, 46, 46)">Bronnen</h6>
+                    <p style="text-align: left; color: rgb(52, 46, 46)">RIVM, CBS, Trouw, Volkskrant. 
+                    </p>      
+                        </div>
+                        </div>
+                      </div>
+                </section>
